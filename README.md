@@ -1,7 +1,7 @@
 Angular 4 - Notes
 ====================
 
-This repository is notes of my angular 4 journey. I didn't switched angular 2 because of some reasons. Now I decided to give a shot and getting course about ng4. I will write everthing that I learn in lectures. Maybe this repository guide you too.
+This repository is notes of my angular 4 journey. I couldn't switched to ng2. Now I decided to give a shot and getting course about ng4. I will write everthing that I learn, Maybe this repository guide you too.
 
 Farewell my friend.
 
@@ -52,5 +52,5 @@ ng serve --port 8080
 
 Typescript compiled and Webpack packed your application.
 
-Now try to access to [](http://localhost:8080)
+Now try to access to [http://localhost:8080](http://localhost:8080)
 
