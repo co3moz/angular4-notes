@@ -54,3 +54,110 @@ Typescript compiled and Webpack packed your application.
 
 Now try to access to [http://localhost:8080](http://localhost:8080)
 
+### Investigating created project
+
+In project folder we can see `e2e` folder, `src` folder, and some files. `e2e` folder contains end to end testing stuff. We will check it after. All our project source  stuff are in `src` folder. Other files contains information about configurations, required packages etc. We will check them when we need.
+
+Inside of `src` folder there are multiple files. The most important file in this folder is `index.html` file. This file is the highest point of our project. If you open it you will see something like this.
+
+```html
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MyFirstApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <app-root>Loading...</app-root>
+</body>
+</html>
+```
+
+In side of body element we have special tag which aren't in html standard. Its `app-root` element.
+
+If you check `app` folder. Go dive into `app.component.ts` file. 
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+}
+```
+
+As you can see there is some property `selector` is setted to `app-root`. In angular components will bind to element that given as `selector`. Selector is kinda like css element selector. If you use `name` then you will select `tag`, if you use `.name` then you will select `class`, if you use `[name]` you will select `property`.
+
+`templateUrl` property routes component's template location. You can use `template` property too if you don't want to create html file.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <b>hi</b>
+  `,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+}
+```
+
+
+`styleUrls` property shows us component's css file location. You can use `styles` too if you don't want to create css file. Difference between `template` and `styles`, styles is expecting an array of string, not directly string.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <b>hi</b>
+  `,
+  styles: [
+      `b {
+          color: red;
+      }`
+  ]
+})
+export class AppComponent {
+}
+```
+
+
+`app.component.spec.ts` file contains information about tests. We will ignore it just for now. 
+
+In angular projects works under modules. These modules look like `java packages` or `c# namespaces`. Your components defined in a module. `app.module.ts` file contains our main module. 
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+All components that using in this project should declared in this file. If we don't declare it, angular couldn't find component that we want to use. 
+
+Rightnow I won't explain other files that we didn't check. We will come to them too.
