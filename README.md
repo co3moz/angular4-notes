@@ -56,6 +56,8 @@ Now try to access to [http://localhost:8080](http://localhost:8080)
 
 ### Investigating created project
 
+> Before going deeper make sure you opened the project with an IDE software. I recommend Visual Studio Code or WebStorm..
+
 In project folder we can see `e2e` folder, `src` folder, and some files. `e2e` folder contains end to end testing stuff. We will check it after. All our project source  stuff are in `src` folder. Other files contains information about configurations, required packages etc. We will check them when we need.
 
 Inside of `src` folder there are multiple files. The most important file in this folder is `index.html` file. This file is the highest point of our project. If you open it you will see something like this.
@@ -161,3 +163,61 @@ export class AppModule { }
 All components that using in this project should declared in this file. If we don't declare it, angular couldn't find component that we want to use. 
 
 Rightnow I won't explain other files that we didn't check. We will come to them too.
+
+> Before going deeper I recommend to learn typescript. If you don't have a clue about it please check it.
+
+### Creating a new component
+
+To create new component; first create a folder inside of `./src/app/` folder. We name it `server`.
+
+Inside of this folder create a file that called `server.component.ts`. Also you may create `server.component.html` too.
+
+In server.component.ts;
+
+```ts
+export class ServerComponent {
+
+}
+```
+
+We created a class that named `ServerComponent`. This class should exported out. We can't use if we didn't export it. we still have to do some stuff. We have to create a `decorator` that decorates this class is a `Component`. So lets do it?
+
+
+```ts
+@Component({
+
+})
+export class ServerComponent {
+
+}
+```
+
+But it won't compile. We have to import something.. `Component` decorator is defined in `@angular/core` package. We can import it from this package by like this.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+
+})
+export class ServerComponent {
+
+}
+```
+
+Now we created a component that angular could use. But still it is invalid. Because it's like untitled subject. It just there but no one could call it. So we have to declare some `selector`.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-server'
+})
+export class ServerComponent {
+
+}
+```
+
+`selector` is similiar to css selector. If you just put something in there like this `app-server`; it would look for `<app-server></app-server>`. If you put there `.app-server` then you get `<div class="app-server"></div>`. You can even use `[app-server]` to look for properties. (like `<div app-server></div>`).
+
+
