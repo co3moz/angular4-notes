@@ -224,3 +224,62 @@ export class ServerComponent {
 `selector` is similiar to css selector. If you just put something in there like this `app-server`; it would look for `<app-server></app-server>`. If you put there `.app-server` then you get `<div class="app-server"></div>`. You can even use `[app-server]` to look for properties. (like `<div app-server></div>`).
 
 
+We have to bind component's html file to component itself. We can use `templateUrl`. It is same as `app.component`.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-server',
+  templateUrl: './server.component.html'
+})
+export class ServerComponent {
+
+}
+```
+
+To use this component we have to add it to `app.module.ts`.
+
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component' // <<-- import first
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ServerComponent // <<-- we have to add component here
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
+I will change `server.component.html`
+
+```html
+<b> server component </b>
+```
+
+Now we can use this component. Create a new element in `app.component.html`. 
+
+```html
+<b> app component </b>
+
+<app-server></appserver>
+```
+
+Check out `localhost:4200` now.
+
