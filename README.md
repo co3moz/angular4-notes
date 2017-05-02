@@ -395,3 +395,72 @@ Now you can use bootstrap.
 >**Note:** There is a library for [bootstrap](https://github.com/ng-bootstrap/ng-bootstrap). It basically provides components too.
 
 
+### Databinding
+
+Databinding is basically binding datas between template and class.
+
+* **OUT** String Interpolation: Bind a variable to template. Syntax `{{ data }}`
+* **OUT** Property Binding: Bind a variable to template's property. Syntax `[property]="data"`
+* **IN** Event Binding: Bind a event to class. Syntax `(event)="expression"`
+
+Lets a create basic component that writes a name. Name should provided with String Interpolation from a variable that we define in class.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <p> My name is {{name}} </p>
+  `
+})
+export class NameComponent {
+  name: string = "Doğan";
+}
+```
+
+Output:
+
+![](images/2.png)
+
+
+This time lets add a 1 second timeout. After 1 second we will change the name to "Göksel"
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <p> My name is {{name}} </p>
+  `
+})
+export class NameComponent {
+  name: string = "Doğan";
+
+  constructor() {
+    setTimeout(() => {
+      this.name = "Göksel";
+    }, 1000);
+  }
+}
+```
+
+In the beginning it will show you ` My name is Doğan ` but after 1 second you will get ` My name is Göksel `. Databinding makes template render again. So you don't care rendering mechanism. 
+
+This time we merge all things.
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <p> 
+      
+    </p>
+  `
+})
+export class NameComponent {
+  name: string = "Doğan";
+}
+```
