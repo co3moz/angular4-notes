@@ -16,6 +16,8 @@ Index
   - [Serving project](#serving-project)
   - [Investigating created project](#investigating-created-project)
   - [Creating a new component](#creating-a-new-component)
+  - [Create component with cli](#create-component-with-cli)
+  - [Including bootstrap css to project](#including-bootstrap-css-to-project)
 
 
 
@@ -296,3 +298,25 @@ Now we can use this component. Create a new element in `app.component.html`.
 Check out [http://localhost:8080](http://localhost:8080) now.
 
 ![](images/1.png)
+
+### Create component with cli
+
+Sometimes we don't want to create basic structures over and over again. So `@angular/cli` has a solution. Using generate function of `ng` we can create components without any labor.
+
+```
+ng generate component <name>
+or
+ng g c <name>
+```
+
+for example, If we want to create servers component then;
+
+```
+ng generate component servers
+```
+
+Will generate `servers` folder in `app` folder and It will create `ts`, `html`, `css` and `.spec.ts` files automaticly. Also it will add declaration to `app.module.ts`. Basically it makes component ready to use.
+
+
+
+### Including bootstrap css to project
