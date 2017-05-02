@@ -20,7 +20,10 @@ Index
   - [Including bootstrap css to project](#including-bootstrap-css-to-project)
   - [Databinding](#databinding)
   - [Directives](#directives)
-
+    - [ngIf](#ngif)
+    - [ngFor](#ngfor)
+    - [ngStyle](#ngstyle)
+    - [ngClass](#ngclass)
 
 
 The Basics
