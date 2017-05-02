@@ -10,12 +10,12 @@ Farewell my friend.
 Index
 ----------------
 
-* [The Basics](#the-basics)
-* * [Installation](#installation)
-* * [Creating project](#creating-project)
-* * [Serving project](#serving-project)
-* * [Investigating created project](#investigating-created-project)
-* * [Creating a new component](#creating-a-new-component)
+- [The Basics](#the-basics)
+  - [Installation](#installation)
+  - [Creating project](#creating-project)
+  - [Serving project](#serving-project)
+  - [Investigating created project](#investigating-created-project)
+  - [Creating a new component](#creating-a-new-component)
 
 
 
@@ -293,5 +293,6 @@ Now we can use this component. Create a new element in `app.component.html`.
 <app-server></app-server>
 ```
 
-Check out `localhost:4200` now.
+Check out [http://localhost:8080](http://localhost:8080) now.
 
+![](images/1.png)
