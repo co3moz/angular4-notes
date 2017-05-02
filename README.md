@@ -18,6 +18,8 @@ Index
   - [Creating a new component](#creating-a-new-component)
   - [Create component with cli](#create-component-with-cli)
   - [Including bootstrap css to project](#including-bootstrap-css-to-project)
+  - [Databinding](#databinding)
+  - [Directives](#directives)
 
 
 
@@ -403,6 +405,8 @@ Databinding is basically binding datas between template and class.
 * **OUT** Property Binding: Bind a variable to template's property. Syntax `[property]="data"`
 * **IN** Event Binding: Bind a event to class. Syntax `(event)="expression"`
 
+#### String Interpolation
+
 Lets a create basic component that writes a name. Name should provided with String Interpolation from a variable that we define in class.
 
 ```ts
@@ -448,19 +452,217 @@ export class NameComponent {
 
 In the beginning it will show you ` My name is Doğan ` but after 1 second you will get ` My name is Göksel `. Databinding makes template render again. So you don't care rendering mechanism. 
 
-This time we merge all things.
+#### Property binding and Event Binding
+
+This time we will use other binding types too.
+
 ```ts
 import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-name',
   template: `
-    <p> 
-      
-    </p>
+    <button [disabled]="isDisabled" (click)="someAction()">Regular button</button>
+    <button (click)="changeDisabled()"> {{isDisabled}} </button>
+  `
+})
+export class NameComponent {
+  isDisabled = true;
+
+  someAction() {
+    alert("hello");
+  }
+
+  changeDisabled() {
+    this.isDisabled = !this.isDisabled; // reverse the value
+  }
+}
+```
+
+At the beginning regular button isn't clickable. But when we click second button it will be enabled and you get alert "hello" when you click it.
+
+#### Two way databinding
+
+There is one more databinding type of angular. Its called `Two way databinding`. This time events, properties and classes binded.
+
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <input [(ngModel)]="name"> 
+    
+    <p> My name is {{name}} </p>
   `
 })
 export class NameComponent {
   name: string = "Doğan";
 }
 ```
+
+You will see that when input change class's name will automaticly change and then `My name is ____` will automaticly render back. If you change name from class then input's value will change too.
+
+> **Note:** `ngModel` should be imported in `app.module.ts` file. Required module is `FormsModule`.
+
+### Directives
+
+There are 3 kinds of directives.
+
+* Components
+* Structural Directives (you will see this as star `*` character)
+* Attribute Directives
+
+You already know the components. Lets dive into structural directives.
+
+These directives are control full of dom. You may ask why?
+
+#### ngIf
+
+Lets check an example of `*ngIf`
+
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <button (click)="visible = !visible">{{visible}}</button>
+    <p *ngIf="visible">
+      I'm visible now
+    </p>
+  `
+})
+export class NameComponent {
+  visible: boolean = false;
+}
+```
+
+In this example when you click the button, some text appears. But interesting part is when visible is false, p element won't exist. It will be created when visible is true. Structural directives modify current dom and remove.
+
+You can use else syntax (Angular 4) too.
+
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <button (click)="visible = !visible">{{visible}}</button>
+    <p *ngIf="visible; else hidden">
+      I'm visible now
+    </p>
+    <ng-template #hidden>
+      <p>
+        I'm hidden
+      </p>
+    </ng-template>
+
+  `
+})
+export class NameComponent {
+  visible: boolean = false;
+}
+```
+
+Please try it before continue.
+
+#### ngFor
+
+ngFor is a structural directive too. It will modify and clone itself as given array. For example;
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <ul>
+      <li *ngFor="let car of cars">{{car}}</li>
+    </ul>
+  `
+})
+export class NameComponent {
+  cars = [
+    'Toyota',
+    'Honda',
+    'Ford'
+  ]
+}
+```
+
+![](images/3.png)
+
+#### ngStyle
+
+ngStyle is an attribute directive. It doesn't like structural directives.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <ul>
+      <li *ngFor="let car of cars" [ngStyle]="{backgroundColor: car.total > 0 ? 'green' : 'red'}">{{car.name}}</li>
+    </ul>
+  `
+})
+export class NameComponent {
+  cars = [
+    {
+      name: 'Toyota',
+      total: 1
+    },
+    {
+      name: 'Ford',
+      total: 0
+    },
+  ]
+}
+```
+
+You will see that Toyota item will green but Ford item will red.
+
+#### ngClass
+
+ngClass is an attribute directive too.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <ul>
+      <li *ngFor="let car of cars" [ngClass]="{notInStock: car.total == 0}">{{car.name}}</li>
+    </ul>
+  `,
+
+  styles: [
+    `.notInStock {
+      background-color: red
+    }`
+  ]
+})
+export class NameComponent {
+  cars = [
+    {
+      name: 'Toyota',
+      total: 1
+    },
+    {
+      name: 'Ford',
+      total: 0
+    },
+  ]
+}
+```
+
+You will see that Toyota item will normal but Ford item will red.
+
+
+
