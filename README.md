@@ -320,3 +320,78 @@ Will generate `servers` folder in `app` folder and It will create `ts`, `html`, 
 
 
 ### Including bootstrap css to project
+
+We may need bootstrap for our project. How we import it? First we have to download the package.
+
+```
+npm install bootstrap --save
+```
+
+Then open the `.angular-cli.json` file. Modify it like this;
+
+```js
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "version": "1.0.0-beta.32.3",
+    "name": "new-cli"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "styles": [
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css", // <<-- we add this line
+        "styles.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    },
+    {
+      "files": "e2e/**/*.ts",
+      "project": "e2e/tsconfig.json"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}
+
+```
+
+Now you can use bootstrap. 
+
+>**Note:** There is a library for [bootstrap](https://github.com/ng-bootstrap/ng-bootstrap). It basically provides components too.
+
+
