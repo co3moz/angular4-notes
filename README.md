@@ -7,6 +7,18 @@ This repository is notes of my angular 4 journey. I couldn't switched to ng2. No
 Farewell my friend.
 
 
+Index
+----------------
+
+* [The Basics](#the-basics)
+* * [Installation](#installation)
+* * [Creating project](#creating-project)
+* * [Serving project](#serving-project)
+* * [Investigating created project](#investigating-created-project)
+* * [Creating a new component](#creating-a-new-component)
+
+
+
 The Basics
 -----------------
 
@@ -278,7 +290,7 @@ Now we can use this component. Create a new element in `app.component.html`.
 ```html
 <b> app component </b>
 
-<app-server></appserver>
+<app-server></app-server>
 ```
 
 Check out `localhost:4200` now.
