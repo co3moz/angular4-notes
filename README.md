@@ -599,6 +599,31 @@ export class NameComponent {
 
 ![](images/3.png)
 
+ngFor also has a index syntax. If you use a `;` character then define a variable that equals the index; you can use the index in the scope.
+
+```ts
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <ul>
+      <li *ngFor="let car of cars; let i = index">({{i}}) {{car}}</li>
+    </ul>
+  `
+})
+export class NameComponent {
+  cars = [
+    'Toyota',
+    'Honda',
+    'Ford'
+  ]
+}
+```
+
+![](images/4.png)
+
+
 #### ngStyle
 
 ngStyle is an attribute directive. It doesn't like structural directives.
