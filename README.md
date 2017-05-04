@@ -817,7 +817,7 @@ As you can see, we used a property binding. Basically `@Input` working as proper
 
 Now give a shot. 
 
-![](6.png)
+![](images/6.png)
 
 Lets check example of the alias parameter `@Input()`. 
 
