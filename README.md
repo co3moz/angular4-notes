@@ -10,25 +10,21 @@ Farewell my friend.
 Index
 ----------------
 
-- [The Basics](#the-basics)
-  - [Installation](#installation)
-  - [Creating project](#creating-project)
-  - [Serving project](#serving-project)
-  - [Investigating created project](#investigating-created-project)
-  - [Creating a new component](#creating-a-new-component)
-  - [Create component with cli](#create-component-with-cli)
-  - [Including bootstrap css to project](#including-bootstrap-css-to-project)
-  - [Databinding](#databinding)
-  - [Directives](#directives)
-    - [ngIf](#ngif)
-    - [ngFor](#ngfor)
-    - [ngStyle](#ngstyle)
-    - [ngClass](#ngclass)
-
-
-The Basics
------------------
-
+- [Installation](#installation)
+- [Creating project](#creating-project)
+- [Serving project](#serving-project)
+- [Investigating created project](#investigating-created-project)
+- [Creating a new component](#creating-a-new-component)
+- [Create component with cli](#create-component-with-cli)
+- [Including bootstrap css to project](#including-bootstrap-css-to-project)
+- [Databinding](#databinding)
+- [Directives](#directives)
+  - [ngIf](#ngif)
+  - [ngFor](#ngfor)
+  - [ngStyle](#ngstyle)
+  - [ngClass](#ngclass)
+- [Input](#input)
+- [Output](#output)
 
 ### Installation
 
@@ -692,5 +688,262 @@ export class NameComponent {
 
 You will see that Toyota item will normal but Ford item will red.
 
+### Input
+
+In this chapter our goal is making some property to accessible from outside. You may ask why we need this? We creating components that has own scope. For example we create "create new user" component and there is "user list" component too. So one components must affect to another one. We will dive into this.
+
+First lets do what we wanted. We create 2 components.
+
+```bash
+ng new my-second-app
+cd my-second-app
+ng g c users --spec false    #-- spec false blocks spec file generation
+ng g c users/user-list --spec false # users/list syntax will create a component in users folder. 
+ng g c users/user-item --spec false
+ng g c users/user-create --spec false
+```
+
+Edit app.component.html as this
+
+```html
+<app-users></app-users>
+```
 
 
+Edit users.component.html as this
+
+```html
+<app-user-create></app-user-create>
+<hr>
+<app-user-list></app-user-list>
+```
+
+Add an array to user-list component file.
+
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
+})
+export class UserListComponent implements OnInit {
+  users = ['Jack', 'George', 'Another common name']; // << this line
+  
+  constructor() { }
+
+  ngOnInit() {
+  }
+}
+```
+
+Edit user-list.component.html as this
+
+```html
+<app-user-item *ngFor="let user of users"></app-user-item>
+```
+
+Edit user-item.component.html and user-item.component.ts as like this.
+
+```html
+<p>
+  User name: {{name}} 
+  <button>Edit</button>
+  <button>Delete</button>
+</p>
+```
+
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.css']
+})
+export class UserItemComponent implements OnInit {
+  name: string;
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+
+So now we ready to process. If you get this point you probably see this screen.
+
+![](images/5.png)
+
+User fields are created but name seems doesn't work at all. We have to do something don't we. UserItemComponent element's name property cannot be accessed by other component because it works in own closure. We have to add a decorator to access. Its called `@Input`
+
+We now editing user.component.ts 
+
+
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.css']
+})
+export class UserItemComponent implements OnInit {
+  @Input() name: string;
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+
+`@Input` decorator is actually decorator generating function. So we have to call it like `@Input()`. You can use the first parameter as alias. I will give you an example for it too.
+
+Now we test our application but result is same. Nothing changed :worried:
+
+![](images/5.png)
+
+We forgot to set name because we never set it or access it from outside of user-item component. 
+
+Edit the user-list.component.html
+
+```html
+<app-user-item *ngFor="let user of users" [name]="user"></app-user-item>
+```
+
+As you can see, we used a property binding. Basically `@Input` working as property. We set the value as user, because we declared a variable as `user` in ngFor directive.
+
+Now give a shot. 
+
+![](6.png)
+
+Lets check example of the alias parameter `@Input()`. 
+
+app-user-item.ts
+
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-user-item',
+  templateUrl: './user-item.component.html',
+  styleUrls: ['./user-item.component.css']
+})
+export class UserItemComponent implements OnInit {
+  @Input('user') name: string; // << as you can see we give some parameter 
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+
+Now component looking for `user` property. 
+
+
+Edit the user-list.component.html
+
+```html
+<app-user-item *ngFor="let user of users" [user]="user"></app-user-item>
+```
+
+### Output
+
+Last chapter we dive into Input. In our example we created edit and delete buttons. Also we must have a working user-create component too. Lets check it.
+
+user-create.component.html
+
+```html
+name: <input type="text" [(ngModel)]="name">
+<button (click)="onUserCreate()">create</button>
+```
+
+user-create.component.ts
+
+```ts
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-user-create',
+  templateUrl: './user-create.component.html',
+  styleUrls: ['./user-create.component.css']
+})
+export class UserCreateComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  name: string; // two-way-binding property
+
+  @Output()
+  onUserCreated = new EventEmitter<string>(); // this is the our event that can be binded out of this component
+  // note: EventEmitter should be imported from @angular/core
+
+  onUserCreate() { // this function get trigger when user click button
+    this.onUserCreated.emit(this.name);  // we send data to eventemitter
+  }
+}
+```
+
+> **Note:** I will move users to upper component.
+
+users.component.html
+
+```html
+<app-user-create (onUserCreated)="onUserCreated($event)"></app-user-create>
+<hr>
+<app-user-list [users]="users"></app-user-list>
+```
+
+users.component.ts
+
+```ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
+})
+export class UsersComponent implements OnInit {
+  users = ['Jack', 'George', 'Another common name'];
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  onUserCreated(name) {
+    this.users.push(name);
+  }
+}
+```
+
+user-list.component.ts
+
+```ts
+import { Component, OnInit, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
+})
+export class UserListComponent implements OnInit {
+  @Input() // added this
+  users; 
+  
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+```
+
+Lets check our application. We type some name to input. Then click the create button. :sunglasses:
