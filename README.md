@@ -686,13 +686,13 @@ export class NameComponent {
 }
 ```
 
-You will see that Toyota item will normal but Ford item will red.
+You will see that Toyota item will looking normal but Ford item will be red.
 
 ### Input
 
-In this chapter our goal is making some property to accessible from outside. You may ask why we need this? We creating components that has own scope. For example we create "create new user" component and there is "user list" component too. So one components must affect to another one. We will dive into this.
+In this chapter our goal is making some property to accessible from outside. You may ask why we need this? We creating components that has own scope. For example we create "create new user" component and  "user list" component. So one component must effect to another one. 
 
-First lets do what we wanted. We create 2 components.
+First lets do what we wanted. We will create some components.
 
 ```bash
 ng new my-second-app
