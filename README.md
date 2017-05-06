@@ -31,7 +31,10 @@ Index
 - [Local Reference](#local-reference)
 - [ng-content](#ng-content)
 - [Life cycle of components](#life-cycle-of-components)
-
+- [Creating a new directive](#creating-a-new-directive)
+  - [HostListener](#hostlistener)
+  - [HostBinding](#hostbinding)
+  
 ### Installation
 
 To develop some applications we need to install node.js first. If you didn't know node.js, please check it before ng4. We will use angular cli. Angular cli will help us creating stuff. Its very useful tool.
@@ -1092,6 +1095,90 @@ export class SomeComponent implements OnInit, OnChanges, DoCheck, AfterContentIn
 
   ngOnDestroy(): void {
     console.log('ngOnDestroy');
+  }
+}
+```
+
+
+### Creating a new directive
+
+We saw some already defined directives. But how we can defire new? This chapter we will dive into that.
+
+Directives are defining just like components. You have to add them to app.module.ts. We can create manual but I will use @angular/cli.
+
+```
+ng generate directive <name>
+or
+ng g d <name>
+```
+
+I will create a green directive that makes elements green on hover.
+
+```
+ng g d green
+```
+
+I remove spec.ts file because we don't care tests just now. There should be green.directive.ts file. Directive files are created as `<name>.directive.ts` syntax. 
+
+```ts
+import { Directive } from '@angular/core';
+
+@Directive({
+  selector: '[appGreen]'
+})
+export class GreenDirective {
+  constructor() { }
+}
+```
+
+This directive will handle the `appGreen` property. If you use somewhere else this then directive will bound to element.
+
+#### HostListener
+
+We trying to make green element whenever mouse hover's the element so we have to catch the events.
+
+```ts
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appGreen]'
+})
+export class GreenDirective {
+  constructor() { }
+
+  @HostListener('mouseenter')
+  mouseenter() {
+    // mouse enters
+  }
+
+  @HostListener('mouseleave')
+  mouseleave() {
+    // mouse leaves
+  }
+}
+```
+
+#### HostBinding
+
+How about to change colors? Now we use `@HostBinding`.
+
+```ts
+import { Directive, HostBinding, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appGreen]'
+})
+export class GreenDirective {
+  @HostBinding('style.backgroundColor') backgroundColor: string = 'transparent';
+
+  @HostListener('mouseenter')
+  mouseenter() {
+    this.backgroundColor = 'green';
+  }
+
+  @HostListener('mouseleave')
+  mouseleave() {
+    this.backgroundColor = 'transparent';
   }
 }
 ```
