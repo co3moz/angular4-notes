@@ -25,6 +25,7 @@ Index
   - [ngFor](#ngfor)
   - [ngStyle](#ngstyle)
   - [ngClass](#ngclass)
+  - [ngSwitch](#ngswitch)
 - [Input](#input)
 - [Output](#output)
 - [View Encapsulation](#view-encapsulation)
@@ -696,6 +697,29 @@ export class NameComponent {
 ```
 
 You will see that Toyota item will looking normal but Ford item will be red.
+
+#### ngSwitch
+
+ngSwitch is for switching between multiple cases. Its very usefull built-in directive.
+
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-name',
+  template: `
+    <div [ngSwitch]="count">
+      <p *ngSwitchCase="5"> Count is 5 </p>
+      <p *ngSwitchCase="10"> Count is 10 </p>
+      <p *ngSwitchDefault> Count is Default </p>
+    </div>
+  `
+})
+export class NameComponent {
+  count: number = 5;
+}
+```
+
 
 ### Input
 
