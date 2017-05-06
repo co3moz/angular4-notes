@@ -219,7 +219,7 @@ export class ServerComponent {
 But it won't compile. We have to import something.. `Component` decorator is defined in `@angular/core` package. We can import it from this package by like this.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 
@@ -232,7 +232,7 @@ export class ServerComponent {
 Now we created a component that angular could use. But still it is invalid. Because it's like untitled subject. It just there but no one could call it. So we have to declare some `selector`.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-server'
@@ -415,7 +415,7 @@ Databinding is basically binding datas between template and class.
 Lets a create basic component that writes a name. Name should provided with String Interpolation from a variable that we define in class.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -436,7 +436,7 @@ Output:
 This time lets add a 1 second timeout. After 1 second we will change the name to "Göksel"
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -462,7 +462,7 @@ In the beginning it will show you ` My name is Doğan ` but after 1 second you w
 This time we will use other binding types too.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -492,7 +492,7 @@ There is one more databinding type of angular. Its called `Two way databinding`.
 
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -529,7 +529,7 @@ Lets check an example of `*ngIf`
 
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -551,7 +551,7 @@ You can use else syntax (Angular 4) too.
 
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -580,7 +580,7 @@ Please try it before continue.
 ngFor is a structural directive too. It will modify and clone itself as given array. For example;
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -604,7 +604,7 @@ export class NameComponent {
 ngFor also has a index syntax. If you use a `;` character then define a variable that equals the index; you can use the index in the scope.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -631,7 +631,7 @@ export class NameComponent {
 ngStyle is an attribute directive. It doesn't like structural directives.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -650,7 +650,7 @@ export class NameComponent {
     {
       name: 'Ford',
       total: 0
-    },
+    }
   ]
 }
 ```
@@ -662,7 +662,7 @@ You will see that Toyota item will green but Ford item will red.
 ngClass is an attribute directive too.
 
 ```ts
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-name',
@@ -987,7 +987,7 @@ Local reference makes a marking for DOM elements. We use that in `*ngIf` structu
 This decorator allows to access DOM element from code. If you know what are you going to do then you can use this decorator, otherwise please avoid using this feature.
 
 ```ts
-import { Component, ViewChild, ElementRef  } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-some',
@@ -1011,7 +1011,7 @@ ng-content is a special directive that provide element's content. Normally angul
 Let me show you an example.
 
 ```ts
-import { Component  } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-bold',
@@ -1026,7 +1026,7 @@ export class BoldComponent {
 ```
 
 ```ts
-import { Component  } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -1037,6 +1037,8 @@ import { Component  } from '@angular/core';
 export class AppComponent {
 }
 ```
+
+> **Note:** Last chapter we learnt ViewChild. If you want to use ViewChild in a content it won't work. You have to use `@ContentChild`
 
 ### Life cycle of components
 
@@ -1052,7 +1054,7 @@ Components have a standard life cycle. They all have these things. We can hook t
 * ngOnDestroy: Called once the components is about the be destroyed.
 
 ```ts
-import { Component  } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-some',
