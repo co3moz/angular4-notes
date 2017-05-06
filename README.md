@@ -4,6 +4,8 @@ Angular 4 - Notes
 
 This repository is notes of my angular 4 journey. I couldn't switched to ng2. Now I decided to give a shot and getting course about ng4. I will write everthing that I learn, Maybe this repository guide you too.
 
+Thanks [Maximilian Schwarzmuller](https://www.udemy.com/the-complete-guide-to-angular-2) for great guide.
+
 Farewell my friend.
 
 
@@ -25,6 +27,10 @@ Index
   - [ngClass](#ngclass)
 - [Input](#input)
 - [Output](#output)
+- [View Encapsulation](#view-encapsulation)
+- [Local Reference](#local-reference)
+- [ng-content](#ng-content)
+- [Life cycle of components](#life-cycle-of-components)
 
 ### Installation
 
@@ -947,3 +953,143 @@ export class UserListComponent implements OnInit {
 ```
 
 Lets check our application. We type some name to input. Then click the create button. :sunglasses:
+
+### View Encapsulation
+
+Component's css files are specific to component. For example in css file;
+
+```css
+b {
+  color: red;
+}
+```
+
+This css compiled with some property selector so this way other components b element won't get any effect but you may don't want to do that. Simply changing encapsulation can modify this feature.
+
+```ts
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'app-some',
+  templateUrl: './some.component.html',
+  styleUrls: ['./some.component.css'],
+  encapsulation: ViewEncapsulation.None
+})
+export class SomeComponent {
+
+}
+```
+
+### Local reference
+
+Local reference makes a marking for DOM elements. We use that in `*ngIf` structure directive section. There is one more thing that I should write and thats named `@ViewChild` decorator.
+
+This decorator allows to access DOM element from code. If you know what are you going to do then you can use this decorator, otherwise please avoid using this feature.
+
+```ts
+import { Component, ViewChild, ElementRef  } from '@angular/core';
+
+@Component({
+  selector: 'app-some',
+  template: `
+  <div #localReference>
+
+  </div>
+  `
+})
+export class SomeComponent {
+  @ViewChild('localReference') 
+  localReferenceDiv: ElementRef;
+}
+```
+
+
+### ng-content
+
+ng-content is a special directive that provide element's content. Normally angular will override the content of components. `<app-root>Loading...</app-root>` is good example for this consept. When angular handle `app-root` then `Loading` text will disapear. But what if we want it. 
+
+Let me show you an example.
+
+```ts
+import { Component  } from '@angular/core';
+
+@Component({
+  selector: 'app-bold',
+  template: `
+    <b>
+      <ng-content></ng-content> <!-- all content will goes to this -->
+    </b>
+  `
+})
+export class BoldComponent {
+}
+```
+
+```ts
+import { Component  } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <app-bold> this text will be bold </app-bold>
+  `
+})
+export class AppComponent {
+}
+```
+
+### Life cycle of components
+
+Components have a standard life cycle. They all have these things. We can hook them.
+
+* ngOnChanges: Called after a bound input proerty changes
+* ngOnInit: Called once the component initalized
+* ngDoCheck: Called during every change detection run
+* ngAfterContentInit: Called after content (ng-content) has been projected into view
+* ngAfterContentChecked: Called every time the projected content has been checked
+* ngAfterViewInit: Called after the component's view (and child views) has been initalized.
+* ngAfterViewChecked: Called every time the view (and child views) has been checked.
+* ngOnDestroy: Called once the components is about the be destroyed.
+
+```ts
+import { Component  } from '@angular/core';
+
+@Component({
+  selector: 'app-some',
+  template: ` `
+})
+export class SomeComponent implements OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy {
+
+    ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes);
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit');
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck');
+  }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit');
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked');
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit');
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+  }
+}
+```

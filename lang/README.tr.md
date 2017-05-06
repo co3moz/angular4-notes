@@ -5,6 +5,9 @@ Angular 4 - Notları (Türkçe çeviri)
 
 Bu repository benim angular 4 maceramı içermektedir. Angular 2'e geçiş yapamamıştım. Şimdide neden olmasın diye düşündüm ve bir eğitim programı ile angular 4'ü öğreniyorum. Öğreneceğim her türlü bilgiyi burada yazacağım. Umarım bu reposity sizi yönlendirir.
 
+ [Maximilian Schwarzmuller](https://www.udemy.com/the-complete-guide-to-angular-2)'e güzel dersleri için teşekkürler
+
+
 kg.
 
 
