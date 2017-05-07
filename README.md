@@ -35,6 +35,9 @@ Index
 - [Creating a new directive](#creating-a-new-directive)
   - [HostListener](#hostlistener)
   - [HostBinding](#hostbinding)
+- [Services and dependency injection](#services-and-dependency-injection)
+  - [Injecting a service into another service](#injecting-a-service-into-another-service)
+  - [Event emitting service](#event-emitting-service)
   
 ### Installation
 
@@ -1203,6 +1206,182 @@ export class GreenDirective {
   @HostListener('mouseleave')
   mouseleave() {
     this.backgroundColor = 'transparent';
+  }
+}
+```
+
+### Services and dependency injection
+
+Services useful to carry data between components. We do not require any decorator to create service. Lets create an user service.
+
+I recommend to create file as `<name>.service.ts` syntax. 
+
+So lets create a new users.service.ts file on `app` folder.
+
+```ts
+export class UserService {
+  users = [
+    {id: 1, name: 'co3moz'},
+    {id: 2, name: 'goxel'}
+    {id: 3, name: 'Ilrkhoaktul'}
+  ]
+
+  getUsers() {
+    return this.users;
+  }
+
+  addUser(user: {id: number, name: string}) {
+    this.users.push(user);
+  }
+
+  removeUser(id: number) {
+    this.users.splice(id, 1);
+  }
+}
+```
+
+We basically create an users service class with some property and functions.
+
+Lets use it from a component.
+
+```ts
+import { UserService } from 'user.service';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-user-list',
+  template: `
+    <p *ngFor="let user of users"> {{ user.name }} </p>
+  `,
+  providers: [
+    UserService
+  ]
+})
+export class UserListComponent implements OnInit {
+  users;
+  constructor(private userService: UserService) {} // userService's type must be declared. Otherwise it won't work.
+
+  ngOnInit() {
+    this.users = this.userService.getUsers(); // pass reference of array to local variable.
+  }
+}
+```
+
+> **Important Note** providers will provide a service to component but every creation of userlistComponent will make own UserService. Because we said to component when you initializing create a new service that called UserService. But what if we just want to application wide? We may need to use this datas from outside of this component. We have to use app.module.ts file for this job. Inside of app.module.ts there is providers section that we can put our service. 
+
+> **Important Note 2** Children of userListComponent can access same service if they didn't declared a new provider of UserService. So Providers section of component should be used only for creating new provider.
+
+You can use @angular/cli to generate service
+
+```
+ng generate service <name>
+or
+ng g s <name>
+```
+
+#### Injecting a service into another service
+
+We may need a service inside of another service. For example we may have a logging service and this service may required to other places. So how we use another service in our service?
+
+There you go some example of `@Injectable`
+
+```ts
+import { LoggingService } from 'logging.service';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class UserService {
+  users = [
+    {id: 1, name: 'co3moz'},
+    {id: 2, name: 'goxel'}
+    {id: 3, name: 'Ilrkhoaktul'}
+  ];
+
+  constructor(private loggingService: LoggingService) {
+
+  }
+
+  getUsers() {
+    return this.users;
+  }
+
+  addUser(user: {id: number, name: string}) {
+    this.users.push(user);
+    this.loggingService.log('user added');
+  }
+
+  removeUser(id: number) {
+    this.users.splice(id, 1);
+    this.loggingService.log('user removed');
+  }
+}
+```
+
+
+#### Event emitting service
+
+We may need a event that emits some information that happened somewhere else and collect required data to show another component. This is how you can do that.
+
+```ts
+import { LoggingService } from 'logging.service';
+import { Injectable, EventEmitter } from '@angular/core';
+
+@Injectable()
+export class UserService {
+  users = [
+    {id: 1, name: 'co3moz'},
+    {id: 2, name: 'goxel'}
+    {id: 3, name: 'Ilrkhoaktul'}
+  ];
+
+  constructor(private loggingService: LoggingService) {
+
+  }
+
+  userCreated = new EventEmitter<{id: number, name: string}>();
+
+  getUsers() {
+    return this.users;
+  }
+
+  addUser(user: {id: number, name: string}) {
+    this.users.push(user);
+    this.userCreated.emit(user);
+    this.loggingService.log('user added');
+  }
+
+  removeUser(id: number) {
+    this.users.splice(id, 1);
+    this.loggingService.log('user removed');
+  }
+}
+```
+
+In component we can just subscribe the event. We will learn better feature so this feature is just for knowledge.
+
+```ts
+import { UserService } from 'user.service';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-user-list',
+  template: `
+    <p *ngFor="let user of users"> {{ user.name }} </p>
+  `,
+  providers: [
+    UserService
+  ]
+})
+export class UserListComponent implements OnInit {
+  users;
+  constructor(private userService: UserService) {
+    this.userService.userCreated.subscribe((user) => {
+      console.log('new user just created');
+    });
+  } // userService's type must be declared. Otherwise it won't work.
+
+  ngOnInit() {
+    this.users = this.userService.getUsers(); // pass reference of array to local variable.
   }
 }
 ```
