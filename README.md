@@ -1267,11 +1267,11 @@ export class UserListComponent implements OnInit {
 }
 ```
 
-> **Important Note** providers will provide a service to component but every creation of userlistComponent will make own UserService. Because we said to component when you initializing create a new service that called UserService. But what if we just want to application wide? We may need to use this datas from outside of this component. We have to use app.module.ts file for this job. Inside of app.module.ts there is providers section that we can put our service. 
+> **Important Note:** Providers will provide a service to component but every creation of userlistComponent will make own UserService. Because we said to component when you initializing create a new service that called UserService. But what if we just want to application wide? We may need to use this datas from outside of this component. We have to use app.module.ts file for this job. Inside of app.module.ts there is providers section that we can put our service. 
 
-> **Important Note 2** Children of userListComponent can access same service if they didn't declared a new provider of UserService. So Providers section of component should be used only for creating new provider.
+> **Important Note 2:** Children of userListComponent can access same service if they didn't declared a new provider of UserService. So Providers section of component should be used only for creating new provider.
 
-You can use @angular/cli to generate service
+You can use `@angular/cli` to generate service
 
 ```
 ng generate service <name>
@@ -1283,7 +1283,7 @@ ng g s <name>
 
 We may need a service inside of another service. For example we may have a logging service and this service may required to other places. So how we use another service in our service?
 
-There you go some example of `@Injectable`
+There you go, some example of `@Injectable`
 
 ```ts
 import { LoggingService } from 'logging.service';
@@ -1385,3 +1385,5 @@ export class UserListComponent implements OnInit {
   }
 }
 ```
+
+> **Important Note:** When you subscribing manually don't forget to unsubscribe with `ngOnDestroy`.
