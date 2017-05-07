@@ -1320,7 +1320,7 @@ export class UserService {
 
 #### Event emitting service
 
-We may need a event that emits some information that happened somewhere else and collect required data to show another component. This is how you can do that.
+We may need a event that emits some information.
 
 ```ts
 import { LoggingService } from 'logging.service';
@@ -1387,3 +1387,37 @@ export class UserListComponent implements OnInit {
 ```
 
 > **Important Note:** When you subscribing manually don't forget to unsubscribe with `ngOnDestroy`.
+
+
+### Router
+
+Router is routes components as pages. To you router first go `app.module.ts`
+
+Import the Routes from `@angular/router`
+
+```ts
+import { Routes, RouterModule } from '@angular/router';
+```
+
+Then create a array that contains following objects.
+
+```ts
+const appRoutes: Routes = [
+  { path: 'users', component: UsersComponent}
+];
+```
+
+`path` declares a route in browser. for example `users` makes routes for `/users`. If path given as empty string then it routes for ` ` so this means we can make a home page.
+
+```ts
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent},
+  { path: 'users', component: UsersComponent}
+];
+```
+
+Also you must add `RouterModule.forRoot(appRoutes)` to imports section of `AppModule`.
+
+Now we have to declare where will content go? we will use `<router-outlet></router-outlet>`.
+
+I will add this to app.component.html.
