@@ -38,7 +38,14 @@ Index
 - [Services and dependency injection](#services-and-dependency-injection)
   - [Injecting a service into another service](#injecting-a-service-into-another-service)
   - [Event emitting service](#event-emitting-service)
-  
+- [Router](#router)
+  - [Links](#links)
+  - [Active route](#active-route)
+  - [Navigating from code](#navigating-from-code)
+  - [Parameters of routes](#parameters-of-routes)
+  - [Nested routes](#nested-routes)
+  - [Redirecting](#redirecting)
+
 ### Installation
 
 To develop some applications we need to install node.js first. If you didn't know node.js, please check it before ng4. We will use angular cli. Angular cli will help us creating stuff. Its very useful tool.
@@ -323,7 +330,7 @@ or
 ng g c <name>
 ```
 
-for example, If we want to create servers component then;
+for example, If we want to create servers component;
 
 ```
 ng generate component servers
@@ -1418,6 +1425,147 @@ const appRoutes: Routes = [
 
 Also you must add `RouterModule.forRoot(appRoutes)` to imports section of `AppModule`.
 
+> **Note** You may create a `app.route.ts` or `app.routing.ts` file. Its your decision.
+
 Now we have to declare where will content go? we will use `<router-outlet></router-outlet>`.
 
 I will add this to app.component.html.
+
+#### Links
+
+In this sub-chapter we will learn router links. 
+
+Normally to make link we simple use `href`.
+
+```html
+<a href="/home">Home</a>
+```
+
+But for angular its invalid because every click causes full page reload. Our application must be stable as possible as can. 
+
+We will use `routerLink` directive.
+
+```html
+<a routerLink="/home">Home</a>
+```
+
+You may use `[]` syntax for expressions.
+
+```html
+<a [routerLink]="['/user', id]">Home</a>
+```
+
+#### Active route
+
+We may need to style active page or etc. To archive this we will use `routerLinkActive`.
+
+```html
+<div routerLinkActive="active">
+  <a routerLink="/">Home</a>
+</div>
+```
+
+routerLinkActive directive has a another directive that named `routerLinkActiveOptions`. With routerLinkActiveOptions we can give options to routerLinkActive. For example for full path check;
+
+```html
+<div routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+  <a routerLink="/">Home</a>
+</div>
+```
+
+#### Navigating from code
+
+Accesing the router from a component might be useful sometimes.
+
+```ts
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-user-list',
+  template: ``
+})
+export class UserListComponent  {
+  constructor(private router: Router) {
+  } 
+
+  navigateSomewhereElse() {
+    this.router.navigate(['/home']);
+  }
+
+}
+```
+
+
+#### Parameters of routes
+
+Examples can show everything.
+
+```ts
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent},
+  { path: 'users/:id', component: UsersComponent}
+];
+```
+
+```ts
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-user-list',
+  template: ``
+})
+export class UsersComponent  {
+  constructor(private route: ActivatedRoute) {
+  } 
+
+  getIdParameter() {
+    return this.route.snapshot.params['id'];
+  }
+
+}
+```
+
+#### Nested routes
+
+Nested routes are useful when we need show multiple components at same time.
+
+```ts
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UsersComponent, children: [
+    { path: ':id', component: UserComponent },
+    { path: ':id/edit', component: UserEditComponent }
+  ]}
+];
+```
+
+Don't forget to add `<router-outlet></router-outlet>` to parent component.
+
+
+#### Redirecting
+
+We may need a redirecting route. I achive that we simple add a route which doesn't have component property. It needs only `redirectTo` parameter.
+
+```ts
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UsersComponent },
+  { path: 'people', redirectTo: '/users' }
+];
+```
+
+With this feature and wildcard feature we can make 404 pages.
+
+
+```ts
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'users', component: UsersComponent },
+  { path: 'not-found', component: NotFoundComponent }
+  { path: '**', redirectTo: '/not-found' }
+];
+```
+
+Simply other routes will redirected to `NotFoundComponent`
