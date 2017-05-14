@@ -1563,8 +1563,8 @@ With this feature and wildcard feature we can make 404 pages.
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'not-found', component: NotFoundComponent }
-  { path: '**', redirectTo: '/not-found' }
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: '/not-found' } // make sure wildcard is at the end.
 ];
 ```
 
