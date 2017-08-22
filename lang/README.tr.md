@@ -5,6 +5,7 @@ Bu kod deposu benim angular 4 notlarımın bir derlemesidir. Angular 2'yi deneye
 
 [Maximilian Schwarzmuller](https://www.udemy.com/the-complete-guide-to-angular-2)'e bu harika rehber için teşekkürler.
 
+> **Yazar notu:** Türkçe çeviriyi üşenmeden yaptığı için [Furkan Başaran](http://github.com/frknbasaran) 'a teşekkürler.
 
 İçindekiler
 ----------------
