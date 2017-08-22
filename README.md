@@ -1048,7 +1048,7 @@ export class SomeComponent {
 
 ### ng-content
 
-ng-content is a special directive that provide element's content. Normally angular will override the content of components. `<app-root>Loading...</app-root>` is good example for this consept. When angular handle `app-root` then `Loading` text will disapear. But what if we want it. 
+ng-content is a special directive that provide element's content. Normally angular will override the content of components. `<app-root>Loading...</app-root>` is good example for this consept. When angular handle `app-root` then `Loading` text will disapear. But what if we want to show it. 
 
 Let me show you an example.
 
