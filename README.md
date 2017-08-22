@@ -8,6 +8,11 @@ Thanks [Maximilian Schwarzmuller](https://www.udemy.com/the-complete-guide-to-an
 
 Farewell my friend.
 
+Other Languages
+----------------
+
+- [Yazıyı türkçe okumak için tıklayın](lang/README.tr.md)
+
 
 Index
 ----------------
