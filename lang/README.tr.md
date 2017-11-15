@@ -1002,7 +1002,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: 'app-some',
   templateUrl: './some.component.html',
   styleUrls: ['./some.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated //Emulated, some.component.css özelliklerini component özel yapar  
 })
 export class SomeComponent {
 
