@@ -993,7 +993,7 @@ b {
 }
 ```
 
-Bu css derlendiğinde diğer komponentlerin b elementleri de bundan etkilenebilir fakat biz bunun olmasını istemeyiz. View Encapsulation tam olarak bu soruna çözüm buluyor.
+Başka bir komponentin b elementi bu css'den etkilenmeyecektir. Ancak bu durumu değiştirmek isteyebilir, bu css dosyasının tüm uygulama içerisinde gerçerli olmasını sağlayabiliriz. Bunun için ViewEncapsulation'u kullanacağız. 
 
 ```ts
 import { Component, ViewEncapsulation } from '@angular/core';
